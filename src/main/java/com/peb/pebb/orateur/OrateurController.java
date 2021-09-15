@@ -28,6 +28,7 @@ public class OrateurController {
     // Fetch all orateur
     @GetMapping("/orateurs")
     public List<Orateur> getOrateurs() {
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         return orateurService.getOrateurs();
     }
 
