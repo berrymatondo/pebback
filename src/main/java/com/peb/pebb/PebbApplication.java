@@ -28,18 +28,20 @@ public class PebbApplication {
 	CommandLineRunner run(AppUserService appUserService) {
 		return args -> {
 
-			appUserService.saveRole(new Role(null, "ROLE_USER"));
-			appUserService.saveRole(new Role(null, "ROLE_ADMIN"));
-
-			appUserService
-					.saveAppUsers(new AppUser("Rivo", "Spinda", "jmatondo1@hotmail.com", "456", new ArrayList<>()));
-
-			appUserService
-					.saveAppUsers(new AppUser("Berry", "Matondo", "jmatondo@hotmail.com", "123", new ArrayList<>()));
-
-			appUserService.addRoleToUser("jmatondo1@hotmail.com", "ROLE_USER");
-			appUserService.addRoleToUser("jmatondo@hotmail.com", "ROLE_USER");
-			appUserService.addRoleToUser("jmatondo@hotmail.com", "ROLE_ADMIN");
+			/*
+			 * appUserService.saveRole(new Role(null, "ROLE_USER"));
+			 * appUserService.saveRole(new Role(null, "ROLE_ADMIN"));
+			 * 
+			 * appUserService .saveAppUsers(new AppUser("Rivo", "Spinda",
+			 * "jmatondo1@hotmail.com", "456", new ArrayList<>()));
+			 * 
+			 * appUserService .saveAppUsers(new AppUser("Berry", "Matondo",
+			 * "jmatondo@hotmail.com", "123", new ArrayList<>()));
+			 * 
+			 * appUserService.addRoleToUser("jmatondo1@hotmail.com", "ROLE_USER");
+			 * appUserService.addRoleToUser("jmatondo@hotmail.com", "ROLE_USER");
+			 * appUserService.addRoleToUser("jmatondo@hotmail.com", "ROLE_ADMIN");
+			 */
 
 		};
 	}
