@@ -33,6 +33,8 @@ public class AppUserService implements UserDetailsService {
     }
 
     public String signUpUser(AppUser appUser) {
+        System.out.println("------ appUser ------- " + appUser.getFirstname());
+
         boolean userExists = appUserRepository.findByUsername(appUser.getUsername()).isPresent();
         if (userExists) {
             throw new IllegalStateException("Email déjà utilisé");
@@ -40,14 +42,19 @@ public class AppUserService implements UserDetailsService {
 
         String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
 
+        System.out.println("------ encodedPassword ------- " + encodedPassword);
+
         appUser.setPassword(encodedPassword);
 
         appUserRepository.save(appUser);
 
+        System.out.println("------ after save ------- " + appUser.getFirstname());
+
         addRoleToUser(appUser.getUsername(), "ROLE_USER");
+        System.out.println("------ entre roles ------- " + appUser.getFirstname());
         addRoleToUser(appUser.getUsername(), "ROLE_ADMIN");
         // send confirmation token
-
+        System.out.println("------ after roles ------- " + appUser.getFirstname());
         return "it works";
     }
 
@@ -63,10 +70,14 @@ public class AppUserService implements UserDetailsService {
     }
 
     public void addRoleToUser(String username, String name) {
-        AppUser appUser = appUserRepository.findByUsername(username).get();
-        Role role = roleRepository.findByName(name);
 
+        System.out.println("------ after in ------- " + username + " " + name);
+        AppUser appUser = appUserRepository.findByUsername(username).get();
+        System.out.println("------ after in 2 ------- " + username + " " + name);
+        Role role = roleRepository.findByName(name);
+        System.out.println("------ after in 3 ------- " + username + " " + name);
         appUser.getRoles().add(role);
+        System.out.println("------ after in 4 ------- " + username + " " + name);
     }
 
     public AppUser getAppUser(String username) {

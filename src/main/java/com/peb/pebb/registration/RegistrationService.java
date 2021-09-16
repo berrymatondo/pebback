@@ -1,5 +1,7 @@
 package com.peb.pebb.registration;
 
+import javax.transaction.Transactional;
+
 import com.peb.pebb.appUser.AppUser;
 import com.peb.pebb.appUser.AppUserRole;
 import com.peb.pebb.appUser.AppUserService;
@@ -15,11 +17,13 @@ public class RegistrationService {
     private final AppUserService appUserService;;
     private final EmailValidator emailValidator;
 
+    @Transactional
     public String register(Registration registration) {
         boolean isValidEmail = emailValidator.test(registration.getUsername());
         if (!isValidEmail) {
             throw new IllegalStateException("Email not valid");
         }
+
         /*
          * return appUserService.signUpUser(new AppUser(registration.getFirstname(),
          * registration.getLastname(), registration.getUsername(),

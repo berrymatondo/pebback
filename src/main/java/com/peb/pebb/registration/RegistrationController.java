@@ -1,6 +1,11 @@
 package com.peb.pebb.registration;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.peb.pebb.appUser.AppUser;
+import com.peb.pebb.appUser.AppUserRepository;
 import com.peb.pebb.appUser.AppUserService;
 import com.peb.pebb.jwt.JwtRequest;
 import com.peb.pebb.jwt.JwtResponse;
@@ -31,14 +36,22 @@ public class RegistrationController {
     // private AuthenticationManager authenticationManager;
     private DaoAuthenticationProvider daoAuthenticationProvider;
     private AppUserService appUserService;
+    private AppUserRepository appUserRepository;
 
     @PostMapping("/registration")
     public String register(@RequestBody Registration registration) {
+        System.out.println("===================Register=================");
         return registrationService.register(registration);
     }
 
     @PostMapping("/authenticate")
+
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
+
+        boolean test = appUserRepository.findByUsername(jwtRequest.getUsername()).isPresent();
+        if (!test) {
+            throw new Exception("Cet utilisateur n'est pas connu");
+        }
 
         // Authentication
         try {
@@ -49,10 +62,23 @@ public class RegistrationController {
         }
 
         // Creation jwt token
+        /*
+         * final UserDetails userDetails =
+         * appUserService.loadUserByUsername(jwtRequest.getUsername());
+         * 
+         * final String token = jwtUtility.generateToken(userDetails);
+         * 
+         * return new JwtResponse(token);
+         */
         final UserDetails userDetails = appUserService.loadUserByUsername(jwtRequest.getUsername());
 
         final String token = jwtUtility.generateToken(userDetails);
 
-        return new JwtResponse(token);
+        List claims2 = new ArrayList<>();
+        claims2 = userDetails.getAuthorities().stream().map(r -> r.getAuthority()).collect(Collectors.toList());
+
+        String firstname = appUserRepository.findByUsername(jwtRequest.getUsername()).get().getFirstname();
+
+        return new JwtResponse(token, claims2, firstname);
     }
 }

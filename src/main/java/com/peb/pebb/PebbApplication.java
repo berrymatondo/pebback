@@ -7,6 +7,7 @@ import com.peb.pebb.appUser.AppUser;
 import com.peb.pebb.appUser.AppUserRole;
 import com.peb.pebb.appUser.AppUserService;
 import com.peb.pebb.role.Role;
+import com.peb.pebb.role.RoleRepository;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,13 +26,13 @@ public class PebbApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(AppUserService appUserService) {
+	CommandLineRunner run(AppUserService appUserService, RoleRepository roleRepository) {
 		return args -> {
 
+			appUserService.saveRole(new Role(1L, "ROLE_USER"));
+			appUserService.saveRole(new Role(2L, "ROLE_ADMIN"));
+
 			/*
-			 * appUserService.saveRole(new Role(null, "ROLE_USER"));
-			 * appUserService.saveRole(new Role(null, "ROLE_ADMIN"));
-			 * 
 			 * appUserService .saveAppUsers(new AppUser("Rivo", "Spinda",
 			 * "jmatondo1@hotmail.com", "456", new ArrayList<>()));
 			 * 
