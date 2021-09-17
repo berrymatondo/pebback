@@ -3,6 +3,7 @@ package com.peb.pebb.appUser;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.peb.pebb.resume.Resume;
 import com.peb.pebb.role.Role;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -38,6 +40,9 @@ public class AppUser implements UserDetails {
     private String password;
     @ManyToMany(fetch = FetchType.EAGER) // quand on load le user,on load aussi ses roles
     private Collection<Role> roles = new ArrayList<>();
+
+    @ManyToMany
+    private List<Resume> resumes = new ArrayList<>();
     /*
      * @Enumerated(EnumType.STRING) private AppUserRole appUserRole; private boolean
      * locked = false; private boolean enabled = true;

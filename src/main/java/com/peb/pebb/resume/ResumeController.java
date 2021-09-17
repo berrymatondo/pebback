@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/peb")
@@ -35,6 +39,14 @@ public class ResumeController {
     @GetMapping("/resumes/category/{cat}")
     public List<Resume> getResumesByCategory(@PathVariable("cat") String cat) {
         return resumeService.getResumesByCategory(cat);
+    }
+
+    // Fetch all résumé
+    @GetMapping("/resumes/category/{cat}/{userId}")
+    public List<Resume> getResumesByCategoryByUserId(@PathVariable("cat") String cat,
+            @PathVariable("userId") Long userId) {
+        System.out.println("cat=" + cat + " " + "userId=" + userId);
+        return resumeService.getResumesByCategoryByUserId(cat, userId);
     }
 
     // Add a new résumé
@@ -61,4 +73,30 @@ public class ResumeController {
         resumeService.updateResume(resume);
     }
 
+    // addTag
+    @PostMapping("/resumes/tag/add")
+    public void addTag(@RequestBody InTag tagResume) {
+        resumeService.addTag(tagResume.getUsId(), tagResume.getResId());
+    }
+
+    // addTag
+    @GetMapping("/resumes/tag")
+    public TagResume getTag(@RequestBody TagResume tagResume) {
+        return resumeService.getTag(tagResume.getAppusersId(), tagResume.getResumesResumeId());
+    }
+
+    // untag resume
+    @DeleteMapping("/resumes/tag/delete")
+    public void deleteTag(@RequestBody TagResume tagResume) {
+        resumeService.deleteTag(tagResume.getAppusersId(), tagResume.getResumesResumeId());
+    }
+
+}
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+class InTag {
+    private Long usId;
+    private Long resId;
 }

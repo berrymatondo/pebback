@@ -78,7 +78,8 @@ public class RegistrationController {
         claims2 = userDetails.getAuthorities().stream().map(r -> r.getAuthority()).collect(Collectors.toList());
 
         String firstname = appUserRepository.findByUsername(jwtRequest.getUsername()).get().getFirstname();
+        Long appUserId = appUserRepository.findByUsername(jwtRequest.getUsername()).get().getId();
 
-        return new JwtResponse(token, claims2, firstname);
+        return new JwtResponse(token, claims2, firstname, appUserId);
     }
 }

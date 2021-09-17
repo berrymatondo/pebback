@@ -14,4 +14,5 @@ public class JwtResponse {
     private String jwtToken;
     private List<String> roles = new ArrayList<>();
     private String firstname;
+    private Long appUserId;
 }

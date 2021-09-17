@@ -35,6 +35,7 @@ public class Resume {
     private String theme;
     @Column(columnDefinition = "TEXT")
     private String message;
+    private boolean tag = false;
 
     /*
      * @JsonIgnore
