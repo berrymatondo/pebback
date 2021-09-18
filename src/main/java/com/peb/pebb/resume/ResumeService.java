@@ -63,6 +63,16 @@ public class ResumeService {
         return resume;
     }
 
+    public Resume getResumeUnknown(Long id) {
+
+        Resume resume = resumeRepository.findById(id).get();
+        Orateur orateur = orateurRepository.getById(resume.getOrateurId());
+        resume.setFirstname(orateur.getFirstname());
+        resume.setLastname(orateur.getLastname());
+
+        return resume;
+    }
+
     // Update résumé
     @Transactional // On utilise les setters pour faire automatiquement les updates de l'entité
     public void updateResume(Resume resume) {
@@ -125,21 +135,21 @@ public class ResumeService {
     @Transactional
     public void addTag(Long appuserId, Long resumeId) {
 
-        System.out.println("----------------IN----------------");
+        // System.out.println("----------------IN----------------");
         AppUser appUser = appUserRepository.findById(appuserId).get();
-        System.out.println("----------------IN2----------------");
+        // System.out.println("----------------IN2----------------");
         Resume resume = resumeRepository.findById(resumeId).get();
-        System.out.println("----------------IN3----------------");
-        System.out.println("appuserId=" + appuserId + " " + "resumeId=" + resumeId);
+        // System.out.println("----------------IN3----------------");
+        // System.out.println("appuserId=" + appuserId + " " + "resumeId=" + resumeId);
 
         // TagResume tag = resumeRepository.getTag(appuserId, resumeId);
 
         if (resumeRepository.tagExists(appuserId, resumeId)) {
-            System.out.println("----------------NULL----------------");
+            // System.out.println("----------------NULL----------------");
             resumeRepository.deleteTag(appuserId, resumeId);
 
         } else {
-            System.out.println("----------------NOT NULL----------------");
+            // System.out.println("----------------NOT NULL----------------");
             appUser.getResumes().add(resume);
         }
 

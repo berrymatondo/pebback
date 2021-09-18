@@ -61,10 +61,16 @@ public class ResumeController {
         resumeService.deleteResume(id);
     }
 
-    // Fetch résumé
+    // Fetch résumé for a known user
     @GetMapping("/resumes/{userId}/{id}")
     public Resume getResume(@PathVariable("userId") Long userId, @PathVariable("id") Long id) {
         return resumeService.getResume(userId, id);
+    }
+
+    // Fetch résumé for an unknown user
+    @GetMapping("/resumes/{id}")
+    public Resume getResumeUnknown(@PathVariable("id") Long id) {
+        return resumeService.getResumeUnknown(id);
     }
 
     // Update résumé
