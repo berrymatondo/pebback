@@ -51,12 +51,15 @@ public class ResumeService {
     }
 
     // Retrieve a specific résumé
-    public Resume getResume(Long id) {
+    public Resume getResume(Long userId, Long id) {
 
         Resume resume = resumeRepository.findById(id).get();
         Orateur orateur = orateurRepository.getById(resume.getOrateurId());
         resume.setFirstname(orateur.getFirstname());
         resume.setLastname(orateur.getLastname());
+        if (resumeRepository.tagExists(userId, id)) {
+            resume.setTag(true);
+        }
         return resume;
     }
 

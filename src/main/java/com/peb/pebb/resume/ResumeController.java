@@ -62,9 +62,9 @@ public class ResumeController {
     }
 
     // Fetch résumé
-    @GetMapping("/resumes/{id}")
-    public Resume getResume(@PathVariable("id") Long id) {
-        return resumeService.getResume(id);
+    @GetMapping("/resumes/{userId}/{id}")
+    public Resume getResume(@PathVariable("userId") Long userId, @PathVariable("id") Long id) {
+        return resumeService.getResume(userId, id);
     }
 
     // Update résumé
