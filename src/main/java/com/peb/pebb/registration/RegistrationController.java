@@ -74,7 +74,7 @@ public class RegistrationController {
 
         final String token = jwtUtility.generateToken(userDetails);
 
-        List claims2 = new ArrayList<>();
+        List<String> claims2 = new ArrayList<>();
         claims2 = userDetails.getAuthorities().stream().map(r -> r.getAuthority()).collect(Collectors.toList());
 
         String firstname = appUserRepository.findByUsername(jwtRequest.getUsername()).get().getFirstname();
