@@ -2,6 +2,9 @@ package com.peb.pebb.resume;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,8 +13,10 @@ import com.peb.pebb.appUser.AppUser;
 import com.peb.pebb.appUser.AppUserRepository;
 import com.peb.pebb.orateur.Orateur;
 import com.peb.pebb.orateur.OrateurRepository;
+import com.peb.pebb.role.Role;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ResumeService {
@@ -120,6 +125,7 @@ public class ResumeService {
     public List<Resume> getResumesByCategory(String cat) {
 
         List<Resume> resumes = resumeRepository.findByCategory(cat);
+        List<Resume> resumes2 = new ArrayList<Resume>();
         for (int i = 0; i < resumes.size(); i++) {
             // System.out.println("size= " + resumes.size());
             // System.out.println("IDdddddddddddddddddddddddddd= " +
@@ -127,9 +133,12 @@ public class ResumeService {
             Orateur orateur = orateurRepository.findById(resumes.get(i).getOrateurId()).get();
             resumes.get(i).setFirstname(orateur.getFirstname());
             resumes.get(i).setLastname(orateur.getLastname());
+            if (resumes.get(i).isPublished())
+                resumes2.add(resumes.get(i));
         }
 
-        return resumes;
+        // return resumes;
+        return resumes2;
     }
 
     @Transactional
@@ -166,7 +175,33 @@ public class ResumeService {
 
     public List<Resume> getResumesByCategoryByUserId(String cat, Long userId) {
 
+        boolean isAdmin = false;
+        AppUser appUser = appUserRepository.findById(userId).get();
+        // appUser.getRoles().stream().map(r -> System.out.println(r.getName()));
+
+        List<String> claims2 = new ArrayList<>();
+        claims2 = appUser.getAuthorities().stream().map(r -> r.getAuthority()).collect(Collectors.toList());
+        for (int i = 0; i < claims2.size(); i++) {
+
+            System.out.println(i + " " + claims2.get(i));
+
+            if (claims2.get(i).equals("ROLE_ADMIN"))
+                isAdmin = true;
+
+        }
+
+        System.out.println("Is Admin vaut======" + isAdmin);
+        // claims2 = appUser.getRoles().stream().map(r ->
+        // System.out.println(r.getName()));
+
+        /*
+         * List<String> claims2 = new ArrayList<>(); claims2 =
+         * userDetails.getAuthorities().stream().map(r ->
+         * r.getAuthority()).collect(Collectors.toList());
+         */
+
         List<Resume> resumes = resumeRepository.findByCategory(cat);
+        List<Resume> resumes2 = new ArrayList<>();
         for (int i = 0; i < resumes.size(); i++) {
             // System.out.println("size= " + resumes.size());
             // System.out.println("IDdddddddddddddddddddddddddd= " +
@@ -178,9 +213,21 @@ public class ResumeService {
             if (resumeRepository.tagExists(userId, resumes.get(i).getResumeId())) {
                 resumes.get(i).setTag(true);
             }
+
+            if (resumes.get(i).isPublished())
+                resumes2.add(resumes.get(i));
         }
 
-        return resumes;
+        if (isAdmin)
+            return resumes;
+        else
+            return resumes2;
+    }
+
+    @Transactional
+    public void updatePublish(Long resumeId, Boolean status) {
+        Resume resume = resumeRepository.findById(resumeId).get();
+        resume.setPublished(status);
     }
 
 }

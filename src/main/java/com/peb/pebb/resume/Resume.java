@@ -36,6 +36,7 @@ public class Resume {
     @Column(columnDefinition = "TEXT")
     private String message;
     private boolean tag = false;
+    private boolean published;
 
     /*
      * @JsonIgnore

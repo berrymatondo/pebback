@@ -97,6 +97,15 @@ public class ResumeController {
         resumeService.deleteTag(tagResume.getAppusersId(), tagResume.getResumesResumeId());
     }
 
+    // publish resumé
+    @PostMapping("/resumes/publish/update")
+    public void publishResume(@RequestBody InPublish inPublish) {
+        System.out.println("getResId= " + inPublish.getResId());
+        System.out.println("isStatus= " + inPublish.isStatus());
+
+        resumeService.updatePublish(inPublish.getResId(), inPublish.isStatus());
+    }
+
 }
 
 @Data
@@ -105,4 +114,12 @@ public class ResumeController {
 class InTag {
     private Long usId;
     private Long resId;
+}
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+class InPublish {
+    private Long resId;
+    private boolean status;
 }

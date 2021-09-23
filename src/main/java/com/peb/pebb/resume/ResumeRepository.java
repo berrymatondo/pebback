@@ -24,4 +24,8 @@ public interface ResumeRepository extends JpaRepository<Resume, Long> {
     @Query(value = "select case when count(1) > 0 then true else false end from appusers_resumes where appusers_id=?1 and resumes_resume_id=?2 ", nativeQuery = true)
     boolean tagExists(Long appuserId, Long resumeId);
 
+    @Modifying
+    @Query(value = "update resumes set publish=?2 where resume_id=?1", nativeQuery = true)
+    void updatePublish(Long resumeId, boolean status);
+
 }
