@@ -190,16 +190,6 @@ public class ResumeService {
 
         }
 
-        System.out.println("Is Admin vaut======" + isAdmin);
-        // claims2 = appUser.getRoles().stream().map(r ->
-        // System.out.println(r.getName()));
-
-        /*
-         * List<String> claims2 = new ArrayList<>(); claims2 =
-         * userDetails.getAuthorities().stream().map(r ->
-         * r.getAuthority()).collect(Collectors.toList());
-         */
-
         List<Resume> resumes = resumeRepository.findByCategory(cat);
         List<Resume> resumes2 = new ArrayList<>();
         for (int i = 0; i < resumes.size(); i++) {

@@ -38,7 +38,9 @@ public class AppUser implements UserDetails {
     private String lastname;
     private String username;
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER) // quand on load le user,on load aussi ses roles
+    // @ManyToMany(fetch = FetchType.EAGER) // quand on load le user,on load aussi
+    // ses roles
+    @ManyToMany // quand on load le user,on load aussi ses roles
     private Collection<Role> roles = new ArrayList<>();
 
     @ManyToMany
