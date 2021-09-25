@@ -28,4 +28,7 @@ public interface ResumeRepository extends JpaRepository<Resume, Long> {
     @Query(value = "update resumes set publish=?2 where resume_id=?1", nativeQuery = true)
     void updatePublish(Long resumeId, boolean status);
 
+    @Query(value = "select count(*) from resumes where published = true and category=?1", nativeQuery = true)
+    Long getTotalResume(String category);
+
 }

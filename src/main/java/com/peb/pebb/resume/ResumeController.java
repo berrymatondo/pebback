@@ -106,6 +106,12 @@ public class ResumeController {
         resumeService.updatePublish(inPublish.getResId(), inPublish.isStatus());
     }
 
+    // total resumé
+    @GetMapping("/resumes/total")
+    public TotalResume getTotalResume() {
+        return resumeService.getTotalResume();
+    }
+
 }
 
 @Data

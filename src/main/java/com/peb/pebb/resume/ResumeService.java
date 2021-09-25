@@ -42,6 +42,14 @@ public class ResumeService {
     // Add résumé
     public Resume addResume(Resume resume) {
 
+        // String myDate = resume.getDate().substring(6, 10) +
+        // resume.getDate().substring(3, 5)
+        // + resume.getDate().substring(0, 2);
+        // System.out.println("MyDate==============================" + myDate);
+        // resume.setDate(myDate);
+        // String output = myDate.substring(6, 8) + "/" + myDate.substring(4, 6) + "/" +
+        // myDate.substring(0, 4);
+        // System.out.println("output==============================" + output);
         return resumeRepository.save(resume);
     }
 
@@ -62,6 +70,14 @@ public class ResumeService {
         Orateur orateur = orateurRepository.getById(resume.getOrateurId());
         resume.setFirstname(orateur.getFirstname());
         resume.setLastname(orateur.getLastname());
+        // String output = myDate.substring(6, 8) + "/" + myDate.substring(4, 6) + "/" +
+        // myDate.substring(0, 4);
+        /*
+         * resume.setDate(resume.getDate().substring(6, 8) + "/" +
+         * resume.getDate().substring(4, 6) + "/" + resume.getDate().substring(0, 4));
+         * System.out.println("MyDate 0==============================" +
+         * resume.getDate());
+         */
         if (resumeRepository.tagExists(userId, id)) {
             resume.setTag(true);
         }
@@ -74,6 +90,12 @@ public class ResumeService {
         Orateur orateur = orateurRepository.getById(resume.getOrateurId());
         resume.setFirstname(orateur.getFirstname());
         resume.setLastname(orateur.getLastname());
+        /*
+         * resume.setDate(resume.getDate().substring(6, 8) + "/" +
+         * resume.getDate().substring(4, 6) + "/" + resume.getDate().substring(0, 4));
+         * System.out.println("MyDate 1==============================" +
+         * resume.getDate());
+         */
 
         return resume;
     }
@@ -218,6 +240,15 @@ public class ResumeService {
     public void updatePublish(Long resumeId, Boolean status) {
         Resume resume = resumeRepository.findById(resumeId).get();
         resume.setPublished(status);
+    }
+
+    public TotalResume getTotalResume() {
+        Long totEbm = resumeRepository.getTotalResume("ebm");
+        Long totCulte = resumeRepository.getTotalResume("culte");
+        Long totAutre = resumeRepository.getTotalResume("autre");
+
+        return (new TotalResume(totEbm, totCulte, totAutre));
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.peb.pebb.resume;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -10,6 +11,7 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.peb.pebb.orateur.Orateur;
+import com.peb.pebb.utility.SegTec;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -55,4 +57,7 @@ public class Resume {
 
     @Transient
     private String lastname;
+
+    @Embedded
+    private SegTec segTec;
 }
