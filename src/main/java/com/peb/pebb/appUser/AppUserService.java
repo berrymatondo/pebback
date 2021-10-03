@@ -71,13 +71,9 @@ public class AppUserService implements UserDetailsService {
 
     public void addRoleToUser(String username, String name) {
 
-        // System.out.println("------ after in ------- " + username + " " + name);
         AppUser appUser = appUserRepository.findByUsername(username).get();
-        // System.out.println("------ after in 2 ------- " + username + " " + name);
         Role role = roleRepository.findByName(name);
-        // System.out.println("------ after in 3 ------- " + username + " " + name);
         appUser.getRoles().add(role);
-        // System.out.println("------ after in 4 ------- " + username + " " + name);
     }
 
     public AppUser getAppUser(String username) {

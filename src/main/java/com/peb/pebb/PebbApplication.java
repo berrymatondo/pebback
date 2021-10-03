@@ -47,24 +47,25 @@ public class PebbApplication {
 
 		};
 	}
-	/*
-	 * @Scheduled(initialDelay = 2000L, fixedDelayString = "300000") // toutesles 2
-	 * secondes void someJob() throws Exception { RestTemplate restTemplate = new
-	 * RestTemplate(); // Resume resume = //
-	 * restTemplate.getForObject("http://localhost:9050/peb/resumes/1", //
-	 * Resume.class); String msg =
-	 * restTemplate.getForObject("https://pebicc.herokuapp.com/wakeup",
-	 * String.class); System.out.println("Resume msg:= " + msg);
-	 * System.out.println("Now is := " + new Date()); Thread.sleep(1000L); }
-	 */
+
+	@Scheduled(initialDelay = 2000L, fixedDelayString = "${myJob.delay}") // toutesles 2 secondes
+	void someJob() throws Exception {
+		RestTemplate restTemplate = new RestTemplate();
+		// Resume resume =
+		// restTemplate.getForObject("http://localhost:9050/peb/resumes/1",
+		// Resume.class);
+		String msg = restTemplate.getForObject("https://pebicc.herokuapp.com/wakeup", String.class);
+		System.out.println("Resume msg:= " + msg);
+		System.out.println("Now is := " + new Date());
+		Thread.sleep(1000L);
+	}
 
 }
 
-/*
- * @Configuration
- * 
- * @EnableScheduling
- * 
- * @ConditionalOnProperty(name = "scheduling.enabled", matchIfMissing = true)
- * class scheduleConfig { }
- */
+@Configuration
+
+@EnableScheduling
+
+@ConditionalOnProperty(name = "scheduling.enabled", matchIfMissing = true)
+class scheduleConfig {
+}

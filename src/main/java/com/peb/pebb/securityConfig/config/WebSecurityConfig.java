@@ -48,7 +48,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        // http.rememberMe().key("Jerry matondo");
         // http.authorizeRequests().antMatchers("/peb/orateurs/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/peb/orateurs/delete/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/peb/orateurs/update/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().anyRequest().permitAll();
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

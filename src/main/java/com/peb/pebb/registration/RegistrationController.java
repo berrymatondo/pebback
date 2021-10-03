@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import com.peb.pebb.appUser.AppUser;
 import com.peb.pebb.appUser.AppUserRepository;
 import com.peb.pebb.appUser.AppUserService;
@@ -11,6 +14,8 @@ import com.peb.pebb.jwt.JwtRequest;
 import com.peb.pebb.jwt.JwtResponse;
 import com.peb.pebb.utility.JWTUtility;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,7 +51,12 @@ public class RegistrationController {
 
     @PostMapping("/authenticate")
 
+    // public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws
+    // Exception {
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
+        // public ResponseEntity authenticate(@RequestBody JwtRequest jwtRequest,
+        // HttpServletResponse response)
+        // throws Exception {
 
         boolean test = appUserRepository.findByUsername(jwtRequest.getUsername()).isPresent();
         if (!test) {
@@ -80,6 +90,26 @@ public class RegistrationController {
         String firstname = appUserRepository.findByUsername(jwtRequest.getUsername()).get().getFirstname();
         Long appUserId = appUserRepository.findByUsername(jwtRequest.getUsername()).get().getId();
 
+        // HttpHeaders httpHeaders = new HttpHeaders();
+        // httpHeaders.set("MyToken", token);
+        // httpHeaders.add("Set-Cookie", "MyToken=token;");
+        // httpHeaders.add("Set-Cookie", "MyToken=token;Secure; HttpOnly");
+        // Cookie cook = new Cookie("MyToken", token);
+        // cook.setHttpOnly(true);
+
+        // final Cookie cookie = new Cookie("MyToken", token);
+        // cookie.setDomain(this.cookieDomain);
+        // cookie.setSecure(true);
+        // cookie.setHttpOnly(true);
+
+        // final String origin = "http://localhost:3000";
+
+        // response.addHeader("Access-Control-Allow-Origin", origin);
+        // cookie.setMaxAge(maxAge);
+        // response.addCookie(cookie);
+        // response.addCookie(new Cookie("MyToken", token));
+
+        // return ResponseEntity.ok().headers(httpHeaders).body(token);
         return new JwtResponse(token, claims2, firstname, appUserId);
     }
 }

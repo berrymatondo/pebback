@@ -40,16 +40,13 @@ public class JwtFilter extends OncePerRequestFilter {
             username = jwtUtility.getUsernameFromToken(token);
         }
 
-        System.out.println("token=" + token);
-        System.out.println("username=" + username);
-
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) { // extract principal
                                                                                                   // (userDetail)
             UserDetails userDetails = appUserService.loadUserByUsername(username);
 
             // System.out.println("roles=" + token.);
 
-            // validate toker
+            // validate token
             if (jwtUtility.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
@@ -62,6 +59,11 @@ public class JwtFilter extends OncePerRequestFilter {
             }
 
         }
+
+        System.out.println("My token:=" + token);
+
+        response.setHeader("token", token);
+
         filterChain.doFilter(request, response);
     }
 }
